@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/reset_password.dart';
-import 'package:flutter_auth/sign_up.dart';
+import 'package:flutter_auth/main.dart';
+import 'package:flutter_auth/screens/auth/reset_password.dart';
+import 'package:flutter_auth/screens/auth/sign_up.dart';
 import 'package:flutter_auth/widgets/custom_button.dart';
 import 'package:flutter_auth/widgets/text_inputs.dart';
 
@@ -14,6 +16,35 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
+
+  // Giriş yapma fonksiyonu
+  Future<void> signInUser() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: email.text.trim(),
+            password: password.text.trim(),
+          );
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        print("🔥 Kullanıcı giriş yaptı: ${user.email}");
+        print("📌 Kullanıcı UID: ${user.uid}");
+
+        // Ana ekrana yönlendir
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => MyApp()),
+          (Route<dynamic> route) => false,
+        );
+      }
+    } catch (e) {
+      print("🚨 Firebase Giriş Hatası: $e");
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Giriş yapılamadı: $e")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

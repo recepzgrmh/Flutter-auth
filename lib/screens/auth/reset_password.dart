@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/widgets/custom_button.dart';
 import 'package:flutter_auth/widgets/text_inputs.dart';
@@ -11,6 +12,19 @@ class ResetPassword extends StatefulWidget {
 
 class _ResetPasswordState extends State<ResetPassword> {
   TextEditingController email = TextEditingController();
+
+  Future<void> resetPassword() async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Reset link sent!")));
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

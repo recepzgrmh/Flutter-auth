@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/screens/auth/verify_account.dart';
 import 'package:flutter_auth/widgets/custom_button.dart';
 import 'package:flutter_auth/widgets/text_inputs.dart';
 
@@ -14,6 +16,39 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController password = TextEditingController();
   final TextEditingController fullName = TextEditingController();
   final TextEditingController lastName = TextEditingController();
+
+  Future<void> signUpUser() async {
+    try {
+      // Kullanıcı oluşturma
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: email.text.trim(),
+            password: password.text.trim(),
+          );
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        // Kullanıcı adını güncelle
+        await user.updateDisplayName("${fullName.text} ${lastName.text}");
+        await user.reload();
+
+        // Doğrulama e-postasını gönder
+        await user.sendEmailVerification();
+
+        // Doğrulama ekranına
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => VerifyAccount()),
+          (Route<dynamic> route) => false, // önceki tüm rotaları kaldır
+        );
+      }
+    } catch (e) {
+      print("🔥 Firebase Hatası: $e");
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Hesap oluşturulamadı: $e")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

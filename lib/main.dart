@@ -1,66 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/log_in.dart';
-import 'package:flutter_auth/sign_up.dart';
-import 'package:flutter_auth/widgets/custom_button.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_auth/auth_state_switcher.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()));
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // .env yüklemesi
+  try {
+    await dotenv.load(fileName: ".env");
+    print("📌 `.env` dosyası başarıyla yüklendi!");
+  } catch (e) {
+    print("🚨 `.env` dosyası yüklenemedi! Hata: $e");
+  }
+
+  // Firebase başlatma
+  try {
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      print("🔥 Firebase Başlatıldı!");
+    } else {
+      print("Firebase zaten başlatılmış.");
+    }
+  } catch (e) {
+    print("🚨 Firebase Başlatma Hatası: $e");
+  }
+
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Flutter Auth'),
-        centerTitle: true,
-        backgroundColor: Colors.blue.shade600,
-        foregroundColor: Colors.white,
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: CustomButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LogIn()),
-                    );
-                  },
-                  label: 'Giriş Yap',
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 20),
-              Flexible(
-                child: CustomButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
-                    );
-                  },
-                  label: 'Kayıt Ol',
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.blue,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+    return MaterialApp(
+      title: 'Login Page',
+      debugShowCheckedModeBanner: false,
+      home: AuthStateSwitcher(),
     );
   }
 }
