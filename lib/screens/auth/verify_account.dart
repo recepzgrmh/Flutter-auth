@@ -106,7 +106,7 @@ class _VerifyAccountState extends State<VerifyAccount> {
                 child: Icon(
                   Icons.email_outlined,
                   size: 100,
-                  color: Colors.teal,
+                  color: Colors.blue,
                 ),
               ),
               const SizedBox(height: 20),
@@ -123,7 +123,7 @@ class _VerifyAccountState extends State<VerifyAccount> {
                 child: CustomButton(
                   label: "Devam Et",
                   onPressed: () => verifyAccount(context),
-                  backgroundColor: Colors.teal,
+                  backgroundColor: Colors.blue.shade600,
                   foregroundColor: Colors.white,
                   verticalPadding: 16,
                   minHeight: 48,
