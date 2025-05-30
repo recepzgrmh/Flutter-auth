@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/main.dart';
+import 'package:flutter_auth/screens/auth/sign_up.dart';
 import 'package:flutter_auth/widgets/custom_button.dart';
 
 class VerifyAccount extends StatefulWidget {
@@ -90,7 +91,10 @@ class _VerifyAccountState extends State<VerifyAccount> {
       // AppBar: Geri tuşu Get.offAll ile çalışıyor
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed:
+              () => Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (context) => const SignUp())),
           icon: const Icon(Icons.arrow_back),
         ),
         toolbarHeight: 100,
@@ -122,7 +126,10 @@ class _VerifyAccountState extends State<VerifyAccount> {
                 width: double.infinity,
                 child: CustomButton(
                   label: "Devam Et",
-                  onPressed: () => verifyAccount(context),
+                  onPressed:
+                      () => checkVerification(
+                        context,
+                      ), // Fonksiyonu gerçekten çağırıyoruz
                   backgroundColor: Colors.blue.shade600,
                   foregroundColor: Colors.white,
                   verticalPadding: 16,
@@ -148,7 +155,10 @@ class _VerifyAccountState extends State<VerifyAccount> {
                 width: double.infinity,
                 child: CustomButton(
                   label: "Tekrar Gönder",
-                  onPressed: () {},
+                  onPressed:
+                      () => verifyAccount(
+                        context,
+                      ), // E-posta doğrulama linki yeniden gönderiliyor
                   backgroundColor: const Color(0xFFE8EEF2),
                   foregroundColor: Colors.black,
                   verticalPadding: 16,

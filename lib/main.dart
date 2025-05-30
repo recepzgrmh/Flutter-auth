@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_auth/auth_state_switcher.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -26,6 +26,9 @@ Future<void> main() async {
     } else {
       print("Firebase zaten başlatılmış.");
     }
+
+    // Dil kodunu initialize'dan sonra ayarlıyoruz
+    FirebaseAuth.instance.setLanguageCode('tr');
   } catch (e) {
     print("🚨 Firebase Başlatma Hatası: $e");
   }
