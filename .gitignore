@@ -1,8 +1,7 @@
 # .gitignore
 .env
 
-# Flutter / Dart firebase options dosyası
-lib/firebase_options.dart
+
 
 # Miscellaneous
 *.class
