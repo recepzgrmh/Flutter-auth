@@ -98,7 +98,7 @@ class _LogInState extends State<LogIn> {
               // "Giriş Yap" butonu
               CustomButton(
                 label: "Giriş Yap",
-                onPressed: () {},
+                onPressed: signInUser,
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
                 verticalPadding: 16,

@@ -61,7 +61,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 const SizedBox(height: 20),
                 CustomButton(
                   label: "Sıfırlama Linki Gönder",
-                  onPressed: () {},
+                  onPressed: resetPassword,
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
                   verticalPadding: 16,

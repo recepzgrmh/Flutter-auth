@@ -122,7 +122,7 @@ class _VerifyAccountState extends State<VerifyAccount> {
                 width: double.infinity,
                 child: CustomButton(
                   label: "Devam Et",
-                  onPressed: () {},
+                  onPressed: () => verifyAccount(context),
                   backgroundColor: Colors.teal,
                   foregroundColor: Colors.white,
                   verticalPadding: 16,

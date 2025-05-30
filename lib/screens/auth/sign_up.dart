@@ -37,10 +37,9 @@ class _SignUpState extends State<SignUp> {
         await user.sendEmailVerification();
 
         // Doğrulama ekranına
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => VerifyAccount()),
-          (Route<dynamic> route) => false, // önceki tüm rotaları kaldır
-        );
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (_) => VerifyAccount()));
       }
     } catch (e) {
       print("🔥 Firebase Hatası: $e");
@@ -107,7 +106,7 @@ class _SignUpState extends State<SignUp> {
               // "Kayıt Ol" butonu
               CustomButton(
                 label: "Kayıt Ol",
-                onPressed: () {},
+                onPressed: signUpUser,
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
                 verticalPadding: 16,
